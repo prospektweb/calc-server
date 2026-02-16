@@ -1,0 +1,200 @@
+{
+  "initPayload": {
+    "elementsStore": {
+      "CALC_DETAILS": [
+        {
+          "id": 1,
+          "iblockId": 100,
+          "code": "detail_1",
+          "productId": null,
+          "name": "Test Detail",
+          "fields": {
+            "width": 210,
+            "height": 297,
+            "length": 1,
+            "weight": 0.1
+          },
+          "measure": null,
+          "measureRatio": 1,
+          "purchasingPrice": null,
+          "purchasingCurrency": null,
+          "prices": [],
+          "properties": {
+            "TYPE": {
+              "ID": "1",
+              "IBLOCK_ID": "100",
+              "NAME": "Type",
+              "CODE": "TYPE",
+              "PROPERTY_TYPE": "L",
+              "MULTIPLE": "N",
+              "VALUE": "DETAIL",
+              "VALUE_XML_ID": "DETAIL",
+              "VALUE_ENUM": "Detail",
+              "DESCRIPTION": null,
+              "PROPERTY_VALUE_ID": "1"
+            },
+            "CALC_STAGES": {
+              "ID": "2",
+              "IBLOCK_ID": "100",
+              "NAME": "Stages",
+              "CODE": "CALC_STAGES",
+              "PROPERTY_TYPE": "E",
+              "MULTIPLE": "Y",
+              "VALUE": [1],
+              "DESCRIPTION": null,
+              "PROPERTY_VALUE_ID": ["2"]
+            }
+          }
+        }
+      ],
+      "CALC_STAGES": [
+        {
+          "id": 1,
+          "iblockId": 101,
+          "code": "stage_1",
+          "productId": null,
+          "name": "Test Stage",
+          "fields": {
+            "width": null,
+            "height": null,
+            "length": null,
+            "weight": 0
+          },
+          "measure": null,
+          "measureRatio": 1,
+          "purchasingPrice": null,
+          "purchasingCurrency": null,
+          "prices": [],
+          "properties": {
+            "CALC_SETTINGS": {
+              "ID": "10",
+              "IBLOCK_ID": "101",
+              "NAME": "Calculator Settings",
+              "CODE": "CALC_SETTINGS",
+              "PROPERTY_TYPE": "E",
+              "MULTIPLE": "N",
+              "VALUE": "1",
+              "DESCRIPTION": null,
+              "PROPERTY_VALUE_ID": "10"
+            },
+            "OPERATION_VARIANT": {
+              "ID": "11",
+              "IBLOCK_ID": "101",
+              "NAME": "Operation Variant",
+              "CODE": "OPERATION_VARIANT",
+              "PROPERTY_TYPE": "E",
+              "MULTIPLE": "N",
+              "VALUE": null,
+              "DESCRIPTION": null,
+              "PROPERTY_VALUE_ID": null
+            },
+            "OPERATION_QUANTITY": {
+              "ID": "12",
+              "IBLOCK_ID": "101",
+              "NAME": "Operation Quantity",
+              "CODE": "OPERATION_QUANTITY",
+              "PROPERTY_TYPE": "N",
+              "MULTIPLE": "N",
+              "VALUE": "1",
+              "DESCRIPTION": null,
+              "PROPERTY_VALUE_ID": "12"
+            },
+            "MATERIAL_VARIANT": {
+              "ID": "13",
+              "IBLOCK_ID": "101",
+              "NAME": "Material Variant",
+              "CODE": "MATERIAL_VARIANT",
+              "PROPERTY_TYPE": "E",
+              "MULTIPLE": "N",
+              "VALUE": null,
+              "DESCRIPTION": null,
+              "PROPERTY_VALUE_ID": null
+            },
+            "MATERIAL_QUANTITY": {
+              "ID": "14",
+              "IBLOCK_ID": "101",
+              "NAME": "Material Quantity",
+              "CODE": "MATERIAL_QUANTITY",
+              "PROPERTY_TYPE": "N",
+              "MULTIPLE": "N",
+              "VALUE": "1",
+              "DESCRIPTION": null,
+              "PROPERTY_VALUE_ID": "14"
+            }
+          }
+        }
+      ],
+      "CALC_SETTINGS": [
+        {
+          "id": 1,
+          "iblockId": 102,
+          "code": "settings_1",
+          "productId": null,
+          "name": "Test Calculator",
+          "fields": {
+            "width": null,
+            "height": null,
+            "length": null,
+            "weight": 0
+          },
+          "measure": null,
+          "measureRatio": 1,
+          "purchasingPrice": null,
+          "purchasingCurrency": null,
+          "prices": [],
+          "properties": {
+            "LOGIC_JSON": {
+              "ID": "20",
+              "IBLOCK_ID": "102",
+              "NAME": "Logic JSON",
+              "CODE": "LOGIC_JSON",
+              "PROPERTY_TYPE": "S",
+              "MULTIPLE": "N",
+              "~VALUE": "{\"vars\":[{\"name\":\"testPrice\",\"value\":100}],\"outputs\":[]}",
+              "VALUE": "{\"vars\":[{\"name\":\"testPrice\",\"value\":100}],\"outputs\":[]}",
+              "DESCRIPTION": null,
+              "PROPERTY_VALUE_ID": "20"
+            }
+          }
+        }
+      ]
+    },
+    "selectedOffers": [
+      {
+        "id": 1,
+        "name": "Test Offer",
+        "productId": 1,
+        "properties": {}
+      }
+    ],
+    "product": {
+      "id": 1,
+      "name": "Test Product"
+    },
+    "preset": {
+      "id": 1,
+      "name": "Test Preset",
+      "properties": {
+        "CALC_DETAILS": [1]
+      },
+      "prices": [
+        {
+          "typeId": 1,
+          "price": 20,
+          "currency": "PRC",
+          "quantityFrom": 1,
+          "quantityTo": 100
+        }
+      ]
+    },
+    "priceTypes": [
+      {
+        "id": 1,
+        "name": "Base Price",
+        "base": true,
+        "sort": 100
+      }
+    ],
+    "iblocks": []
+  }
+}
