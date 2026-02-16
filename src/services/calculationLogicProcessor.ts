@@ -196,9 +196,13 @@ const extractOptionsMapping = (
   if (!property) return null
 
   const rawValue = property['~VALUE']
-  const rawTextValue = typeof rawValue === 'object' && rawValue !== null ? rawValue.TEXT : rawValue
+  const rawTextValue = typeof rawValue === 'object' && rawValue !== null && 'TEXT' in rawValue 
+    ? (rawValue as any).TEXT 
+    : rawValue
   const fallbackValue = property.VALUE
-  const textFallback = typeof fallbackValue === 'object' && fallbackValue !== null ? fallbackValue.TEXT : fallbackValue
+  const textFallback = typeof fallbackValue === 'object' && fallbackValue !== null && 'TEXT' in fallbackValue
+    ? (fallbackValue as any).TEXT 
+    : fallbackValue
   const valueToParse = typeof rawTextValue === 'string'
     ? rawTextValue
     : typeof textFallback === 'string'

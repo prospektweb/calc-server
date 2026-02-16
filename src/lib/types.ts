@@ -130,17 +130,16 @@ export interface BitrixPropertyValue {
 
 // Detail element from CALC_DETAILS in elementsStore
 export interface CalcDetailElement extends ElementsStoreItem {
-  properties: {
+  properties: Record<string, BitrixPropertyValue> & {
     TYPE: BitrixPropertyValue // VALUE_XML_ID: 'DETAIL' | 'BINDING'
     CALC_STAGES: BitrixPropertyValue // VALUE: number[] - IDs of stages
     DETAILS?: BitrixPropertyValue // VALUE: string[] - IDs of child details (for BINDING type)
-    [key: string]: BitrixPropertyValue
   }
 }
 
 // Stage element from CALC_STAGES in elementsStore
 export interface CalcStageElement extends ElementsStoreItem {
-  properties: {
+  properties: Record<string, BitrixPropertyValue> & {
     PREV_STAGE?: BitrixPropertyValue
     NEXT_STAGE?: BitrixPropertyValue
     CALC_SETTINGS?: BitrixPropertyValue // ID of calculator settings
@@ -152,7 +151,6 @@ export interface CalcStageElement extends ElementsStoreItem {
     CUSTOM_FIELDS_VALUE?: BitrixPropertyValue
     OPTIONS_OPERATION?: BitrixPropertyValue // JSON string with operation options mapping
     OPTIONS_MATERIAL?: BitrixPropertyValue // JSON string with material options mapping
-    [key: string]: BitrixPropertyValue | undefined
   }
 }
 
