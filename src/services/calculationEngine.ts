@@ -484,9 +484,7 @@ async function calculateStage(
     
     // Get operation variant from elementsStore
     if (operationVariantId) {
-      const variant = initPayload.elementsStore?.CALC_OPERATIONS_VARIANTS?.find(
-        (v: any) => v.id === operationVariantId
-      )
+      const variant = getStoreElementById(initPayload, 'CALC_OPERATIONS_VARIANTS', operationVariantId)
       if (variant?.properties?.PURCHASING_PRICE?.VALUE) {
         operationCost = Number(variant.properties.PURCHASING_PRICE.VALUE) || 0
       }
@@ -494,9 +492,7 @@ async function calculateStage(
     
     // Get material variant from elementsStore
     if (materialVariantId) {
-      const variant = initPayload.elementsStore?.CALC_MATERIALS_VARIANTS?.find(
-        (v: any) => v.id === materialVariantId
-      )
+      const variant = getStoreElementById(initPayload, 'CALC_MATERIALS_VARIANTS', materialVariantId)
       if (variant?.properties?.PURCHASING_PRICE?.VALUE) {
         materialCost = Number(variant.properties.PURCHASING_PRICE.VALUE) || 0
       }
