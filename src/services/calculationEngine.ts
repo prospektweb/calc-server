@@ -56,12 +56,17 @@ export interface InitPayload {
 
 export interface CalculationStageAddedCosts {
   operation: {
+    name?: string
     purchasingPrice: number
     basePrice: number
   }
   material: {
+    name?: string
     purchasingPrice: number
     basePrice: number
+  }
+  equipment: {
+    name?: string
   }
 }
 
@@ -177,6 +182,11 @@ function getStoreElementById(initPayload: any, storeCode: string, id: number | n
   const elements = initPayload?.elementsStore?.[storeCode]
   if (!Array.isArray(elements)) return undefined
   return elements.find((item: any) => Number(item?.id) === Number(id))
+}
+
+function getStoreElementNameById(initPayload: any, storeCode: string, id: number | null | undefined): string | undefined {
+  const element = getStoreElementById(initPayload, storeCode, id)
+  return element?.name
 }
 
 function extractParametrScheme(stageElement: any, propertyCode: string): ParametrSchemeEntry[] {
@@ -348,6 +358,16 @@ async function calculateStage(
     }
   }
   
+  // Get variant IDs from stage element
+  const operationVariantId = Number(stageElement?.properties?.OPERATION_VARIANT?.VALUE ?? stage.operationVariantId ?? 0) || null
+  const materialVariantId = Number(stageElement?.properties?.MATERIAL_VARIANT?.VALUE ?? stage.materialVariantId ?? 0) || null
+  const equipmentId = Number(stageElement?.properties?.EQUIPMENT?.VALUE ?? stage.equipmentId ?? 0) || null
+
+  // Get variant names
+  const operationVariantName = getStoreElementNameById(initPayload, 'CALC_OPERATIONS_VARIANTS', operationVariantId)
+  const materialVariantName = getStoreElementNameById(initPayload, 'CALC_MATERIALS_VARIANTS', materialVariantId)
+  const equipmentName = getStoreElementNameById(initPayload, 'CALC_EQUIPMENT', equipmentId)
+  
   // Process LOGIC_JSON if available
   if (settingsElement && stageElement && stage.stageId) {
     try {
@@ -460,10 +480,23 @@ async function calculateStage(
   const hasOutputValues = logicApplied && Object.keys(outputValues).length > 0
   
   if (!hasOutputValues) {
-    logger.debug('[CALC] No logic outputs for stage:', stage.id, { 
-      logicApplied, 
-      outputCount: Object.keys(outputValues).length 
-    })
+    logger.debug('[CALC] Using fallback calculation for stage:', stage.id)
+    
+    // Get operation variant from elementsStore
+    if (operationVariantId) {
+      const variant = getStoreElementById(initPayload, 'CALC_OPERATIONS_VARIANTS', operationVariantId)
+      if (variant?.properties?.PURCHASING_PRICE?.VALUE) {
+        operationCost = Number(variant.properties.PURCHASING_PRICE.VALUE) || 0
+      }
+    }
+    
+    // Get material variant from elementsStore
+    if (materialVariantId) {
+      const variant = getStoreElementById(initPayload, 'CALC_MATERIALS_VARIANTS', materialVariantId)
+      if (variant?.properties?.PURCHASING_PRICE?.VALUE) {
+        materialCost = Number(variant.properties.PURCHASING_PRICE.VALUE) || 0
+      }
+    }
   }
   
   const operationPurchasingPrice = logicApplied
@@ -523,12 +556,17 @@ async function calculateStage(
     inputs: inputEntries.length > 0 ? inputEntries : undefined,
     added: {
       operation: {
+        name: operationVariantName,
         purchasingPrice: operationPurchasingPrice,
         basePrice: operationBasePrice,
       },
       material: {
+        name: materialVariantName,
         purchasingPrice: materialPurchasingPrice,
         basePrice: materialBasePrice,
+      },
+      equipment: {
+        name: equipmentName,
       },
     },
     delta: stageDelta,
