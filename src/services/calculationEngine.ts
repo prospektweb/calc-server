@@ -186,7 +186,11 @@ function getStoreElementById(initPayload: any, storeCode: string, id: number | n
 
 function getStoreElementNameById(initPayload: any, storeCode: string, id: number | null | undefined): string | undefined {
   const element = getStoreElementById(initPayload, storeCode, id)
-  return element?.name
+  const rawName = element?.name
+  if (rawName === undefined || rawName === null) {
+    return undefined
+  }
+  return String(rawName)
 }
 
 function extractParametrScheme(stageElement: any, propertyCode: string): ParametrSchemeEntry[] {
@@ -512,9 +516,6 @@ async function calculateStage(
     ? Number(outputValues.materialBasePrice) || 0
     : materialCost
 
-  const previousPurchasingPrice = Number(pricingState?.purchasingPrice || 0)
-  const previousBasePrice = Number(pricingState?.basePrice || 0)
-
   const stageDelta = {
     purchasingPrice: operationPurchasingPrice + materialPurchasingPrice,
     basePrice: operationBasePrice + materialBasePrice,
@@ -532,13 +533,8 @@ async function calculateStage(
 
   const normalizedOutputs = {
     ...restOutputValues,
-    purchasingPrice: previousPurchasingPrice + stageDelta.purchasingPrice,
-    basePrice: previousBasePrice + stageDelta.basePrice,
-  }
-
-  if (pricingState) {
-    pricingState.purchasingPrice = normalizedOutputs.purchasingPrice
-    pricingState.basePrice = normalizedOutputs.basePrice
+    purchasingPrice: stageDelta.purchasingPrice,
+    basePrice: stageDelta.basePrice,
   }
 
   const result: CalculationStageResult = {
@@ -789,7 +785,7 @@ async function calculateBinding(
   const derivedLength = derivedOutputs?.length
   const derivedHeight = derivedOutputs?.height
   const derivedWeight = derivedOutputs?.weight
-  const aggregatedChildren = stageResults.length === 0 ? aggregateChildren(children) : null
+  const aggregatedChildren = aggregateChildren(children)
   
   logger.debug('[CALC] Binding calculation complete:', {
     bindingId: binding.id,
